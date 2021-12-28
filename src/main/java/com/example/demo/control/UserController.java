@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.control;
 
 import com.example.demo.rpcDomain.common.RespResult;
 import com.example.demo.rpcDomain.req.RegisterRequest;
@@ -15,7 +15,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value="get/captcha", method= RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value="get/Captcha", method= RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public RespResult getCaptcha(@RequestBody RegisterRequest registerRequest) {
         return userService.beforeRegister(registerRequest);

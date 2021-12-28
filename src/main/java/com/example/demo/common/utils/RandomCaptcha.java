@@ -20,6 +20,7 @@ public class RandomCaptcha {
         int seed = randString.length;
         while (count < 4) {
             builder.append(randString[random.nextInt(seed)]);
+            count++;
         }
         return builder.toString();
     }
