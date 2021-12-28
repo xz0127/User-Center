@@ -1,5 +1,7 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.common.strategy.ContextMapper;
+import com.example.demo.common.strategy.OperatorStrategyEnum;
 import com.example.demo.component.exception.ValidateException;
 import com.example.demo.component.validation.ReqValidateManager;
 import com.example.demo.rpcDomain.common.RespResult;
@@ -18,6 +20,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ToolService toolService;
 
+    @Autowired
+    private ContextMapper contextMapper;
+
     @Override
     public RespResult beforeRegister(RegisterRequest registerRequest) {
         // check parameter
@@ -29,11 +34,8 @@ public class UserServiceImpl implements UserService {
 
         // send email
         boolean isSend = toolService.sendRegisterMail(registerRequest);
-        if (isSend) {
-
-        } else {
-
-        }
-        return null;
+        // strategy pattern
+        OperatorStrategyEnum context = isSend ? OperatorStrategyEnum.SUCCESS : OperatorStrategyEnum.EMAIL_FAIL;
+        return contextMapper.loadProcessor(context).doProcess(registerRequest, context);
     }
 }
