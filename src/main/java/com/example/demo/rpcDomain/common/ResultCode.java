@@ -9,7 +9,11 @@ public enum ResultCode {
 
     REG_DATA_IS_WRONG(-2001, "Registration data is wrong."),
 
-    EMAIL_SEND_FAILURE(-2002, "Email sent failure. Please check input email.");
+    EMAIL_SEND_FAILURE(-2002, "Email sent failure. Please check input email."),
+
+    WRONG_CAPTCHA(-2003, "Wrong Captcha."),
+
+    REGISTER_RECORD_IS_EMPTY(-2004, "No register record found.");
 
     int code;
 

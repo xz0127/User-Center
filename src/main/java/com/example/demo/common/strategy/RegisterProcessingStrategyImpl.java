@@ -32,6 +32,7 @@ public class RegisterProcessingStrategyImpl implements UserStrategy {
             registerRecord.setEmail(registerRequest.getEmail());
             registerRecord.setCaptcha(registerRequest.getCaptcha());
             registerRecord.setSendTime(new Date(System.currentTimeMillis()));
+            registerRecord.setUsername(registerRequest.getUsername());
             registerRecordDao.save(registerRecord);
 
             // save user
