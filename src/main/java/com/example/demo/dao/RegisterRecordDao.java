@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RegisterRecordDao extends JpaRepository<RegisterRecord, String> {
 
+    RegisterRecord findByUsername(String username);
 }
