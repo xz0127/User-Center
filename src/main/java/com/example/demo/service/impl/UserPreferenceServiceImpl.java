@@ -1,7 +1,12 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dao.UserPreferenceDao;
+import com.example.demo.pojo.User;
 import com.example.demo.pojo.UserPreference;
+import com.example.demo.rpcDomain.common.RespResult;
+import com.example.demo.rpcDomain.common.ResultCode;
+import com.example.demo.rpcDomain.req.UserPreferenceRequest;
+import com.example.demo.rpcDomain.resp.UserPreferenceResp;
 import com.example.demo.service.UserPreferenceService;
 import com.example.demo.service.UserService;
 import org.apache.commons.lang3.StringUtils;
@@ -18,34 +23,37 @@ public class UserPreferenceServiceImpl
         implements UserPreferenceService {
 
     @Autowired
-    UserPreferenceDao userPreferenceDao;
+    private UserPreferenceDao userPreferenceDao;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     protected JpaRepository getRepository() {
         return userPreferenceDao;
     }
 
-//    @Override
-//    public RespResult<UserPreferenceResp> getByUserId(String userId) {
-//        if (StringUtils.isEmpty(userId)) {
-//            return new RespResult<>(ResultCode.PARAM_IS_BLANK);
-//        }
-//        Optional<User> user = userService.findById(userId);
-//        if (!user.isPresent()) {
-//            return new RespResult(ResultCode.FAIL, "没有查到该用户的设置信息");
-//        }
-//        Optional<UserPreference> entity = userPreferenceDao.findById(user.get().getId());
-//        UserPreferenceResp resp = new UserPreferenceResp();
-//        BeanUtils.copyProperties(entity.get(), resp);
-//        return new RespResult(ResultCode.SUCCESS, resp);
-//    }
-//
-//    @Override
-//    public RespResult updateSetting(UserPreferenceReq req, String userId) {
-//        UserPreference userPreference = new UserPreference();
-//        BeanUtils.copyProperties(req, userPreference);
-//        userPreference.setUserId(userId);
-//        userPreferenceDao.save(userPreference);
-//        return new RespResult(ResultCode.SUCCESS);
-//    }
+    @Override
+    public RespResult<UserPreferenceResp> getSettingByUserId(String userId) {
+        if (StringUtils.isEmpty(userId)) {
+            return new RespResult<>(ResultCode.PARAM_IS_BLANK);
+        }
+        Optional<User> user = userService.findById(userId);
+        if (!user.isPresent()) {
+            return new RespResult(ResultCode.FAIL, "User not exists");
+        }
+        Optional<UserPreference> entity = userPreferenceDao.findById(user.get().getId());
+        UserPreferenceResp resp = new UserPreferenceResp();
+        BeanUtils.copyProperties(entity.get(), resp);
+        return new RespResult(ResultCode.SUCCESS, resp);
+    }
+
+    @Override
+    public RespResult updateSetting(UserPreferenceRequest req, String userId) {
+        UserPreference userPreference = new UserPreference();
+        BeanUtils.copyProperties(req, userPreference);
+        userPreference.setUserId(userId);
+        userPreferenceDao.save(userPreference);
+        return new RespResult(ResultCode.SUCCESS);
+    }
 }
