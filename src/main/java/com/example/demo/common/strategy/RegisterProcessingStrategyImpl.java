@@ -41,9 +41,9 @@ public class RegisterProcessingStrategyImpl implements UserStrategy {
             user.setPassword(MD5Utils.getMD5(registerRequest.getPassword()));
             user.setId(UUIDUtils.get());
             userDao.save(user);
-            return new RespResult(ResultCode.REGISTER_CAPTCHA_SENT);
+            return new RespResult(ResultCode.REGISTER_CAPTCHA_SEND);
         } else {
-            return new RespResult(ResultCode.EMAIL_SEND_FAILURE);
+            return new RespResult(ResultCode.MAIL_SEND_FAIL);
         }
     }
 }

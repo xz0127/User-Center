@@ -90,7 +90,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
         user.setVerified(Boolean.TRUE);
         userDao.save(user);
         initUserInfo(user);
-        return null;
+        return new RespResult(ResultCode.REGISTERED_SUCCESS);
     }
 
     @Override

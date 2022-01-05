@@ -32,7 +32,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         if (StringUtils.isBlank(authHeader) || !authHeader.startsWith(JwtTokenUtils.TOKEN_PREFIX)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             logger.info("User not logged in.");
-            throw new CustomException(ResultCode.USER_UNLOGIN_IN);
+            throw new CustomException(ResultCode.USER_NOT_LOGGED_IN);
         }
         String token = authHeader.substring(7);
         boolean isExpired = JwtTokenUtils.isExpiration(token);
