@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.common.strategy.ContextMapper;
 import com.example.demo.common.strategy.OperatorStrategyEnum;
+import com.example.demo.common.utils.MD5Utils;
 import com.example.demo.common.utils.UUIDUtils;
 import com.example.demo.component.exception.ValidateException;
 import com.example.demo.component.validation.ReqValidateManager;
@@ -12,6 +13,8 @@ import com.example.demo.pojo.UserTag;
 import com.example.demo.pojo.UserPreference;
 import com.example.demo.pojo.UserProfile;
 import com.example.demo.rpcDomain.common.RespResult;
+import com.example.demo.rpcDomain.common.ResultCode;
+import com.example.demo.rpcDomain.req.LoginRequest;
 import com.example.demo.rpcDomain.req.RegisterRequest;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserTagService;
@@ -88,6 +91,21 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
         userDao.save(user);
         initUserInfo(user);
         return null;
+    }
+
+    @Override
+    public User getByUsername(String username) {
+        return userDao.getByUsername(username);
+    }
+
+    @Override
+    public boolean checkVerified(User user) {
+        return user != null && user.getVerified();
+    }
+
+    @Override
+    public boolean checkPassword(User user, LoginRequest loginRequest) {
+        return StringUtils.equals(user.getPassword(), MD5Utils.getMD5(loginRequest.getPassword()));
     }
 
     private void initUserInfo(User user) {
