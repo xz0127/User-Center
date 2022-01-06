@@ -7,26 +7,23 @@ import com.example.demo.common.utils.UUIDUtils;
 import com.example.demo.component.exception.ValidateException;
 import com.example.demo.component.validation.ReqValidateManager;
 import com.example.demo.dao.UserDao;
-import com.example.demo.pojo.Address;
-import com.example.demo.pojo.User;
-import com.example.demo.pojo.UserTag;
-import com.example.demo.pojo.UserPreference;
-import com.example.demo.pojo.UserProfile;
+import com.example.demo.pojo.*;
 import com.example.demo.rpcDomain.common.RespResult;
 import com.example.demo.rpcDomain.common.ResultCode;
 import com.example.demo.rpcDomain.req.LoginRequest;
 import com.example.demo.rpcDomain.req.RegisterRequest;
-import com.example.demo.service.UserService;
-import com.example.demo.service.UserTagService;
-import com.example.demo.service.UserProfileService;
-import com.example.demo.service.UserPreferenceService;
-import com.example.demo.service.AddressService;
-import com.example.demo.service.ToolService;
-import com.example.demo.service.RegisterRecordService;
+import com.example.demo.rpcDomain.resp.ArticleResp;
+import com.example.demo.rpcDomain.resp.UserCenterDTOResp;
+import com.example.demo.service.*;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User, String>
@@ -50,8 +47,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
     @Autowired
     private AddressService addressService;
 
-//    @Autowired
-//    private ArticleService articleService;
+    @Autowired
+    private ArticleService articleService;
 
     @Autowired
     private UserPreferenceService userPreferenceService;
@@ -106,6 +103,36 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
     @Override
     public boolean checkPassword(User user, LoginRequest loginRequest) {
         return StringUtils.equals(user.getPassword(), MD5Utils.getMD5(loginRequest.getPassword()));
+    }
+
+    @Override
+    public RespResult getAccountCenterInfo(String userId) {
+        UserCenterDTOResp dtoResp = new UserCenterDTOResp();
+        Optional<User> optionalUser = userDao.findById(userId);
+        if (!optionalUser.isPresent()) {
+            return new RespResult(ResultCode.USER_NOT_EXIST);
+        }
+        BeanUtils.copyProperties(optionalUser.get(), dtoResp);
+        Address address = addressService.findById(userId).get();
+        String res = (address.getProvince() == null ? "" : address.getProvince()) + (address.getCity() == null ? "" : address.getCity());
+        if (StringUtils.isNotBlank(res)) {
+            dtoResp.setProvinceAndCity(res);
+        }
+        dtoResp.setPersonalProfile(userProfileService.findById(userId).get().getPersonalProfile());
+        List<ArticleResp> articleList = new ArrayList<>();
+        ArticleResp articleResp;
+        for (Article recentPublishedArticle : articleService.getRecentPublishedArticles()) {
+            articleResp = new ArticleResp();
+            BeanUtils.copyProperties(recentPublishedArticle, articleResp);
+            articleList.add(articleResp);
+        }
+        List<String> userTagList = userTagService.getUserTagList(userId);
+
+        dtoResp.setArticleList(articleList);
+        if (userTagList != null && userTagList.size() > 0) {
+            dtoResp.setUserTagList(userTagList);
+        }
+        return new RespResult(ResultCode.SUCCESS, dtoResp);
     }
 
     private void initUserInfo(User user) {

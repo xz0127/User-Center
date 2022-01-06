@@ -12,6 +12,7 @@ import com.example.demo.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class UserPreferenceServiceImpl
     private UserPreferenceDao userPreferenceDao;
 
     @Autowired
+    @Lazy
     private UserService userService;
 
     @Override
