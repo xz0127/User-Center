@@ -35,7 +35,7 @@ public enum ResultCode {
     MAIL_SEND_FAIL(20025, "Error obtaining captcha. Email used or invalid"),
     LOGIN_SUCCESS(20026, "Login success！"),
 
-    /* 业务错误：30001-39999 */
+    /* Business error：30001-39999 */
     BUSINESS_GROUP_NO_ALLOWED_DEL(30001, "Group has been used"),
     BUSINESS_THEME_NO_ALLOWED_DEL(30002, "Theme has been used"),
     BUSINESS_THEME_NO_ALLOWED_DISABLE(30003, "Theme has been used"),
@@ -45,43 +45,24 @@ public enum ResultCode {
     BUSINESS_IS_BOTTOM(30041, "Bottom reached"),
     BUSINESS_NAME_EXISTED(30051, "Name always existed"),
 
-    /* 系统错误：40001-49999 */
-    SYSTEM_INNER_ERROR(40001, "系统繁忙，请稍后重试"),
-    UPLOAD_ERROR(40002, "系统异常，上传文件失败"),
-    FILE_MAX_SIZE_OVERFLOW(40003, "上传尺寸过大"),
-    FILE_ACCEPT_NOT_SUPPORT(40004, "上传文件格式不支持"),
-    SET_UP_AT_LEAST_ONE_ADMIN(40005, "至少指定一个管理员"),
-    URL_INVALID(40006, "Invalid url"),
-    LINK_AND_LOGOUT_NO_MATCH(40006, "主页地址和注销地址IP不一致"),
-    IP_AND_PORT_EXISTED(40007, "当前IP和端口已经被占中"),
-    LINK_IS_REQUIRED(40008, "生成第三方token认证信息： 主页地址不能为空,请完善信息"),
-    HTTP_MEDIA_TYPE_NOT_SUPPORT(40009, "HTTP MediaType 异常，请检查 Content-Type 是否为 application/json;charset=UTF-8 "),
-    HTTP_METHOD_NOT_ALLOWED(40010, "不支持的 HTTP 请求方法，请查看文档"),
-    MSG_NOT_ACCEPT(40011, "不能被处理的请求：请检查请求方法、请求头和参数详情"),
+    /* System error：40001-49999 */
+    HTTP_MEDIA_TYPE_NOT_SUPPORT(40009, "HTTP MediaType exception. Pleas check whether Content-Type is application/json;charset=UTF-8 "),
+    HTTP_METHOD_NOT_ALLOWED(40010, "Http method not allowed"),
+    MSG_NOT_ACCEPT(40011, "The request cannot be handled"),
 
-    /* 数据错误：50001-599999 */
+    /* Data error：50001-599999 */
     RESULT_DATA_NONE(50001, "Result not found"),
     REG_DATA_IS_WRONG(50002, "Error in registration data"),
-    DATA_ALREADY_EXISTED(50003, "Data already exists"),
 
-    /* 接口错误：60001-69999 */
-    INTERFACE_INNER_INVOKE_ERROR(60001, "内部系统接口调用异常"),
-    INTERFACE_OUTTER_INVOKE_ERROR(60002, "外部系统接口调用异常"),
-    INTERFACE_FORBID_VISIT(60003, "该接口禁止访问"),
-    INTERFACE_ADDRESS_INVALID(60004, "接口地址无效"),
-    INTERFACE_REQUEST_TIMEOUT(60005, "接口请求超时"),
-    INTERFACE_EXCEED_LOAD(60006, "接口负载过高"),
+    /* Interface error：60001-69999 */
+    INTERFACE_ADDRESS_INVALID(60004, "Interface address is invalid"),
 
-    /* 权限错误：70001-79999 */
-    PERMISSION_UNAUTHENTICATED(70001, "此操作需要登陆系统！"),
-    PERMISSION_UNAUTHORISE(70002, "权限不足，无权操作！"),
-    PERMISSION_EXPIRE(70003, "登录状态过期！"),
-    PERMISSION_TOKEN_EXPIRED(70004, "token已过期"),
-    PERMISSION_LIMIT(70005, "访问次数受限制"),
-    PERMISSION_TOKEN_INVALID(70006, "无效token"),
-    PERMISSION_SIGNATURE_ERROR(70007, "签名失败"),
+    /* Permission error：70001-79999 */
+    PERMISSION_TOKEN_EXPIRED(70004, "Token has expired"),
+    PERMISSION_TOKEN_INVALID(70006, "Token is invalid"),
+    PERMISSION_SIGNATURE_ERROR(70007, "Signature error"),
 
-    GENERAL_ERROR(80001, "服务器开小差了...");
+    GENERAL_ERROR(80001, "Server is down...");
 
     int code;
 
