@@ -1,4 +1,4 @@
-# User Center
+# Personal Center
 
 A simple backend application built with Spring Boot which integrates Spring Web, Spring Data JPA and Mail Sender to provide the backend service for User Center. It supports CRUD operations such as:
 * User registration/login. 
